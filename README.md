@@ -4,7 +4,7 @@
 ## Project Description
 ### Munir Jojo-Verge
 
-Welcome to the Where Am I? localization project! In this project, you will learn to utilize ROS AMCL package to accurately localize a mobile robot inside a map in the Gazebo simulation environments.
+Welcome to the "Where Am I" localization project! In this project, you will learn to utilize ROS AMCL package to accurately localize a mobile robot inside a map in the Gazebo simulation environments.
 
 Over the course of this lesson, you will learn several aspects of robotic software engineering with a focus on ROS:
 
