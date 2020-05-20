@@ -55,7 +55,7 @@ Go to
 ```
 $ cd src/my_robot/maps
 ```
-double click on __map.pgm__. If you can't open it (error), then I left a map.xcf ready for you to open it with "gimp" (sudo apt-get install gimp). Select File -> extract. Save it as map.pgm and select "raw". This should have solved the problem. Try again by relaunching the amcl package (step 6) 
+double click on __map.pgm__. If you can't open it (error), then I left a map.xcf ready for you to open it with "gimp" (sudo apt-get install gimp). Select File -> export. Save it as map.pgm and select "raw". This should have solved the problem. Try again by relaunching the amcl package (step 6) 
 
 #### 8) If everything went fine, you should be able to see the robot on RViz souranded by particles+arrows. This is the Monte Carlo Localizaion algorithm (best known as ___"Particle Filter"___) giving you the best estimmate for the position and orientation of the robot. You can also move the robot either by clicking on __"2D Nav Goal"__ button on RViz (top bar, below the menu bar) or by running the Teleop Twist on a separate terminal (Terminal 3):
 ```
