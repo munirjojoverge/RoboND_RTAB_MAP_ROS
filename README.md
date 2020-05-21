@@ -123,3 +123,27 @@ I mapped 3 places and here are the pros and cons of each one:
 3) Museum (munir_simple.world). This envrinment was reach and perfect for mapping, but just a little too large for this experiement. The results were great in the center area were we can zoom in and see perfect mapping of the walls an other objects. The problem is that outside this ceter area, the mapping is poor since it requires a lot of driving/exploring around.
 # rtab_map dbs located here: 
 https://drive.google.com/open?id=1XoiL_5oBGUUp3f_MO7B0ogWiCeQhGWem
+
+# Troubleshooting
+
+## Problems with PGM Map Creator
+#### Install Dependencies
+
+We need libignition-math2-dev and protobuf-compiler to compile the map creator:
+
+```
+sudo apt-get install libignition-math2-dev protobuf-compiler
+```
+#### Clone the Repository
+Clone the package pgm_map_creator to your src folder.
+
+```
+cd /home/workspace/catkin_ws/src/
+git clone https://github.com/udacity/pgm_map_creator.git
+```
+
+#### Build the package:
+```
+cd ..
+catkin_make
+```
