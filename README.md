@@ -1,26 +1,34 @@
 [![Udacity - Robotics NanoDegree Program](https://s3-us-west-1.amazonaws.com/udacity-robotics/Extra+Images/RoboND_flag.png)](https://www.udacity.com/robotics)
 
-# Where Am I?
+# Map My World: GraphSLAM using Real Time Apperance Base Map (RTAB_MAP) algorithm in ROS
 ## Project Description
 ### Munir Jojo-Verge
 
-Welcome to the "Where Am I" localization project! In this project, you will learn to utilize ROS AMCL package to accurately localize a mobile robot inside a map in the Gazebo simulation environments.
+#### Overview
+In this project we will create a 2D occupancy grid and 3D octomap from a simulated environment using our own robot with the RTAB-Map package.
 
-Over the course of this lesson, you will learn several aspects of robotic software engineering with a focus on ROS:
+RTAB-Map (Real-Time Appearance-Based Mapping) is a popular solution for SLAM to develop robots that can map environments in 3D. RTAB-Map has good speed and memory management, and it provides custom developed tools for information analysis. Most importantly, the quality of the documentation on ROS Wiki (http://wiki.ros.org/rtabmap_ros) is very high. Being able to leverage RTAB-Map with your own robots will lead to a solid foundation for mapping and localization well beyond this Nanodegree program.
 
-Create a ROS package that launches a custom robot model in a custom Gazebo world
+For this project we will be using the rtabmap_ros package, which is a ROS wrapper (API) for interacting with RTAB-Map. Keep this in mind when looking at the relative documentation.
 
-Utilize the ROS AMCL package and the Tele-Operation / Navigation Stack to localize the robot
+#### Project Instructions
+The project flow will be as follows:
 
-Explore, add, and tune specific parameters corresponding to each package to achieve the best possible localization results
+We will develop our own package to interface with the rtabmap_ros package.
+
+We will build upon our localization project (https://github.com/munirjojoverge/RoboND_AMCL_ROS) to make the necessary changes to interface the robot with RTAB-Map. An example of this is the addition of an RGB-D camera.
+
+We will ensure that all files are in the appropriate places, all links are properly connected, naming is properly setup and topics are correctly mapped. Furthermore you will need to generate the appropriate launch files to launch the robot and map its surrounding environment.
+
+When our robot is launched we will teleop around the room to generate a proper map of the environment.
 
 ## Install
 
-#### 1) Clone with Submodules 
+#### 1) Clone with Submodules (IMPOTANT)
 
 ```
 $ cd ws
-$ git clone --recurse-submodules https://github.com/munirjojoverge/RoboND_AMCL_ROS
+$ git clone --recurse-submodules https://github.com/munirjojoverge/RoboND_RTAB_MAP_ROS
 ```
 #### 2) Rename the repo folder, if necessary, to "src"
 
@@ -44,51 +52,74 @@ go to step 3 and try again.
 ```
 $ roslaunch my_robot world.launch
 ```
-#### 6) Launch "AMCL" ros package (Terminal 2)
+#### 6) Launch "RTAB_MAP" ros package (Terminal 2)
 
 ```
-$ roslaunch my_robot amcl.launch
+$ roslaunch my_robot mapping.launch
 ```
 
-#### 7) If you had a problem loading with the MAP
-Go to 
-```
-$ cd src/my_robot/maps
-```
-double click on __map.pgm__. If you can't open it (error), then I left a map.xcf ready for you to open it with "gimp" (sudo apt-get install gimp). Select File -> export. Save it as map.pgm and select "raw". This should have solved the problem. Try again by relaunching the amcl package (step 6) 
+#### 7) Drive the robot around the environment to map it: Launch the teleop node (Terminal 3)
 
-#### 8) If everything went fine, you should be able to see the robot on RViz souranded by particles+arrows. This is the Monte Carlo Localizaion algorithm (best known as ___"Particle Filter"___) giving you the best estimmate for the position and orientation of the robot. You can also move the robot either by clicking on __"2D Nav Goal"__ button on RViz (top bar, below the menu bar) or by running the Teleop Twist on a separate terminal (Terminal 3):
 ```
 $ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 ```
 
+Navigate your robot in the simulation to create map for the environment! When you are all set, terminal the node and you could find your map db file in the place you specified in the launch file. If you did not modify the argument, it will be located in the /root/.ros/ folder.
+
+#### Best Practices
+You could start by lower velocity. Our goal is to create a great map with the least amount of passes as possible. Getting 3 loop closures will be sufficient for mapping the entire environment. You can maximize your loop closures by going over similar paths two or three times. This allows for the maximization of feature detection, facilitating faster loop closures! When you are done mapping, be sure to copy or move your database before moving on to map a new environment. Remember, relaunching the mapping node deletes any database in place on launch start up!
+
 ## Folter Structure
 ```
-RoboND_AMCL_ROS/
+RoboND_RTAB_MAP_ROS/
 ├── ball_chaser
-│   ├── launch
-│   ├── src
-│   └── srv
+│   ├── CMakeLists.txt
+│   ├── launch
+│   ├── package.xml
+│   ├── src
+│   └── srv
+├── CMakeLists.txt -> /opt/ros/kinetic/share/catkin/cmake/toplevel.cmake
 ├── images
+│   ├── rtabmap_viewer_kitchen_dinning.png
+│   ├── rtabmap_viewer_museum.png
+│   └── rtabmap_viewer_my_original_world.png
+├── LICENSE
 ├── my_robot
-│   ├── config
-│   │   └── __MACOSX
-│   ├── launch
-│   ├── maps
-│   ├── meshes
-│   ├── model
-│   │   ├── Building
-│   │   └── HumanoidRobot
-│   ├── rviz
-│   ├── urdf
-│   └── worlds
+│   ├── CMakeLists.txt
+│   ├── config
+│   ├── launch
+│   ├── maps
+│   ├── meshes
+│   ├── model
+│   ├── package.xml
+│   ├── rviz
+│   ├── urdf
+│   └── worlds
 ├── pgm_map_creator
-│   ├── launch
-│   ├── maps
-│   ├── msgs
-│   ├── src
-│   └── world
+│   ├── CMakeLists.txt
+│   ├── launch
+│   ├── LICENSE
+│   ├── maps
+│   ├── msgs
+│   ├── package.xml
+│   ├── README.md
+│   ├── src
+│   └── world
+├── README.md
+├── RvizConfig.rviz
 └── teleop_twist_keyboard
+    ├── CHANGELOG.rst
+    ├── CMakeLists.txt
+    ├── package.xml
+    ├── README.md
+    └── teleop_twist_keyboard.py
 ```
 ## Results
-Take a look at the images provided on __"images"__ folder
+Take a look at the images provided on __"images"__ folder.
+I mapped 3 places and here are the pros and cons of each one:
+
+1) My personal world (munir_simple0.world): The symetry of the environment and the lack of strong features made the "loop closures" impossible to achieve. Strangely enough the mapping is creat even without closures. Due to the lack of loop closures, I had to move on and try a different environment.
+2) Kitchen & Dinning (munir_simple2.world). Turned out that all the objects have not collision and not laser reflectivity and NO map was produced even though, and since I drove it for quite a while, I encountered 68 loop closures.
+3) Museum (munir_simple.world). This envrinment was reach and perfect for mapping, but just a little too large for this experiement. The results were great in the center area were we can zoom in and see perfect mapping of the walls an other objects. The problem is that outside this ceter area, the mapping is poor since it requires a lot of driving/exploring around.
+# rtab_map dbs located here: 
+https://drive.google.com/open?id=1XoiL_5oBGUUp3f_MO7B0ogWiCeQhGWem
