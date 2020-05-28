@@ -24,7 +24,7 @@ When our robot is launched we will teleop around the room to generate a proper m
 
 ## Install
 
-#### 1) Clone with Submodules (IMPOTANT)
+#### 1) Clone with Submodules (IMPORTANT)
 
 ```
 $ cd ws
